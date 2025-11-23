@@ -31,8 +31,20 @@ mongoose.connect(process.env.MONGO_URI)
   });
 
 // Routes
-app.use("/api", require("./routes/applyLoan"));
-app.use("/api", require("./routes/uploadDocuments"));
+const applyLoanRoutes = require("./routes/applyLoan");
+const uploadDocumentsRoutes = require("./routes/uploadDocuments");
+
+app.use("/api", applyLoanRoutes);
+app.use("/api", uploadDocumentsRoutes);
+
+// Additional test route
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    success: true, 
+    message: "API is working!",
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Health check endpoint for Render
 app.get("/", (req, res) => {
